@@ -1,7 +1,24 @@
 import React from "react";
-import axios from "axios"
-import Movie from "./Movie"
+import { HashRouter, Route, Router } from "react-router-dom";
+import About from "./routes/About";
+import Detail from "./routes/Detail";
+import Home from "./routes/Home";
+import Navigation from "./components/Navigation";
+import "./App.css";
 
+function App() {
+  return (
+  <HashRouter>
+    <Navigation />
+    <Route path="/" exact={true} component={Home} />
+    <Route path="/about" component={About} />
+    <Route path="movie/:id" component={Detail} />
+  </HashRouter>
+  
+  );
+}
+
+export default App;
 
 // import PropTypes from "prop-types";
 
@@ -67,7 +84,6 @@ import Movie from "./Movie"
 //   );
 // }
 
-class App extends React.Component{
   // state = {
   //   count: 0
   // }
@@ -86,37 +102,11 @@ class App extends React.Component{
   //     </div>
   //     )
   // }
-  state = {
-    isLoading:true,
-    movies: []
-  };
+  
 
   // componentDidMount(){
   //   setTimeout(() =>{
   //     this.setState({isLoading: false});
   //   }, 6000);
   // }
-  getMovies = async() => {
-    const {
-      data: {
-        data:{ movies } 
-      }
-    } = await axios.get(
-      "https://yts-proxy.nomadcoders1.now.sh/list_movies.json?sort_by=rating"
-      );
-    this.setState({ movies , isLoading:false})
-  };
-
-  componentDidMount(){
-    this.getMovies();
-  }
-
-  render() {    
-    const {isLoading, movies} = this.state;
-    return <div>{isLoading ? "Loading..." : movies.map(movie =>
-      <Movie key={movie.id} id={movie.id} year={movie.year} title={movie.title} summary={movie.summary} poster={movie.medium_cover_image}></Movie>
-    )}</div>
-  }
-}
-
-export default App;
+  
